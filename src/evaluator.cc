@@ -2,23 +2,26 @@
 #include "object.hh"
 #include "ast.hh"
 
-Evaluator::Evaluator() {}
-
 
 Object::Object* Evaluator::evaluate(ASTNode *node) {
     if (node == nullptr)
         return nullptr;
     
     switch (node->type) {
-         case ASTNodeType::Program: {
+        case ASTNodeType::Program: {
             Program* program = static_cast<Program*>(node);
             return evaluateProgram(program);
-
+        } break;
+        case ASTNodeType::Boolean: {
+            Boolean* newBool = static_cast<Boolean*>(node);
+            return new Object::Boolean(newBool->value);
         } break;
         case ASTNodeType::Integer: {
             Integer* newInt = static_cast<Integer*>(node);
             return new Object::Integer(newInt->value);
         } break;
+        default:
+            return nullptr;
     }
 
     return nullptr;

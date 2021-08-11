@@ -7,6 +7,7 @@ namespace Object {
 
     enum class ObjectType: int
     {
+        Boolean,
         Integer
     };
 
@@ -15,6 +16,14 @@ namespace Object {
     public:
         ObjectType type;
         virtual std::wstring str() = 0;
+    };
+
+    class Boolean: public Object
+    {
+    public:
+        Boolean(bool value);
+        std::wstring str();
+        bool value;
     };
 
     class Integer: public Object

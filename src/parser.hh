@@ -19,6 +19,7 @@ private:
     bool expected_token(TokenType token_type);
  
     Expression* parse_expression();
+    Expression* parse_boolean();
     Expression* parse_integer();
 };
 

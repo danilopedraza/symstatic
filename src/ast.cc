@@ -7,6 +7,12 @@ Program::Program() {
 }
 
 
+Boolean::Boolean(Token token) {
+    type = ASTNodeType::Boolean;
+    this->value = (token.type == TokenType::TRUE);
+}
+
+
 Integer::Integer(Token token) {
     type = ASTNodeType::Integer;
     value = std::stoi(token.literal);

@@ -16,14 +16,20 @@ private:
     wchar_t peek_character();
 
     bool is_number(wchar_t chr);
+    bool is_letter(wchar_t chr);
 
     std::wstring read_number();
+    std::wstring read_identifier();
 
     std::wstring source;
     wchar_t current_character;
     unsigned int read_position, position;
              int line, column;
 
+    std::unordered_map<std::wstring, TokenType> KEYWORDS = {
+        {L"verdadero", TokenType::TRUE},
+        {L"falso", TokenType::FALSE}
+    };
 };
 
 

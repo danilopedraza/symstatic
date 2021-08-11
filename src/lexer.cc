@@ -24,9 +24,17 @@ Token Lexer::next_token() {
             token.type = TokenType::EOFILE;
             break;
         default:
-            if (is_number(current_character)) {
+            if      (is_number(current_character)) {
                 token.type = TokenType::INT;
                 token.literal = read_number();
+            }
+            else if (is_letter(current_character)) {
+                token.literal = read_identifier();
+
+                if (KEYWORDS.find(token.literal) != KEYWORDS.end())
+                    token.type = KEYWORDS[token.literal];
+                else
+                    token.type = TokenType::ILLEGAL;
             }
             else {
                 token.type = TokenType::ILLEGAL;
@@ -79,6 +87,15 @@ bool Lexer::is_number(wchar_t chr) {
     return L'0' <= chr && chr <= L'9';
 }
 
+bool Lexer::is_letter(wchar_t chr) {
+    std::wstring especials = L"áéíóúÁÉÍÓÚñÑ";
+    
+    for (size_t i = 0; i < especials.size(); i++)
+        if (especials[i] == chr) return true;
+    
+    return (L'0' <= chr && chr <= L'9') || (L'a' <= chr && chr <= L'z') || (L'A' <= chr && chr <= L'Z');
+}
+
 std::wstring Lexer::read_number() {
     std::wstring num = L"";
 
@@ -88,4 +105,16 @@ std::wstring Lexer::read_number() {
     }
     
     return num;
+}
+
+std::wstring Lexer::read_identifier() {
+    std::wstring id = L"";
+
+    do {
+        id += current_character;
+        read_character();
+    } while ((is_number(current_character) || is_letter(current_character))
+          && position < source.length());
+    
+    return id;
 }

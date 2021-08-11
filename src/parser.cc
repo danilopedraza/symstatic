@@ -44,17 +44,28 @@ Expression* Parser::parse_expression() {
         case TokenType::INT:
             expression = parse_integer();
             break;
-        default:
+        case TokenType::TRUE:
+            expression = parse_boolean();
+            break;
+        case TokenType::FALSE:
+            expression = parse_boolean();
+            break;
+        case TokenType::ILLEGAL:
+            advance_tokens();
             break;
     }
 
     return expression; 
 }
 
-Expression* Parser::parse_integer() {
-    if (current_token.type != TokenType::INT)
-        return nullptr;
-    
+Expression* Parser::parse_boolean() {
+    Boolean *boolean = new Boolean(current_token);
+    advance_tokens();
+
+    return boolean;
+}
+
+Expression* Parser::parse_integer() {    
     Integer *integer = new Integer(current_token);
     advance_tokens();
 

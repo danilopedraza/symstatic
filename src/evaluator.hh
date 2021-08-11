@@ -7,8 +7,6 @@
 class Evaluator
 {
 public:
-    Evaluator();
-
     Object::Object* evaluate(ASTNode *node);
     Object::Object* evaluateProgram(Program *program);
 };

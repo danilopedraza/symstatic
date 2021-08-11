@@ -7,6 +7,7 @@
 enum class ASTNodeType: int
 {
     Program,
+    Boolean,
     Integer
 };
 
@@ -28,6 +29,14 @@ public:
 
     Program();
 };
+
+
+class Boolean: public Expression
+{
+public:
+    Boolean(Token token);
+    bool value;
+}; 
 
 
 class Integer: public Expression
