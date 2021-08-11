@@ -2,5 +2,6 @@
 #define LIBRARIES_HH
 
 #include <string>
+#include <vector>
 
 #endif
