@@ -7,9 +7,9 @@ Program::Program() {
 }
 
 
-Boolean::Boolean(Token token) {
+Boolean::Boolean(bool value) {
     type = ASTNodeType::Boolean;
-    this->value = (token.type == TokenType::TRUE);
+    this->value = value;
 }
 
 

@@ -45,10 +45,10 @@ Expression* Parser::parse_expression() {
             expression = parse_integer();
             break;
         case TokenType::TRUE:
-            expression = parse_boolean();
+            expression = parse_boolean(true);
             break;
         case TokenType::FALSE:
-            expression = parse_boolean();
+            expression = parse_boolean(false);
             break;
         case TokenType::ILLEGAL:
             advance_tokens();
@@ -58,8 +58,8 @@ Expression* Parser::parse_expression() {
     return expression; 
 }
 
-Expression* Parser::parse_boolean() {
-    Boolean *boolean = new Boolean(current_token);
+Expression* Parser::parse_boolean(bool value) {
+    Boolean *boolean = new Boolean(value);
     advance_tokens();
 
     return boolean;

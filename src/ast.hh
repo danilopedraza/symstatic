@@ -34,7 +34,7 @@ public:
 class Boolean: public Expression
 {
 public:
-    Boolean(Token token);
+    Boolean(bool value);
     bool value;
 }; 
 
