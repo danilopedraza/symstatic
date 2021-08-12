@@ -24,23 +24,24 @@ Token Lexer::next_token() {
             token.type = TokenType::EOFILE;
             break;
         default:
-            if      (is_number(current_character)) {
-                token.type = TokenType::INT;
-                token.literal = read_number();
-            }
-            else if (is_letter(current_character)) {
-                token.literal = read_identifier();
-
-                if (KEYWORDS.find(token.literal) != KEYWORDS.end())
-                    token.type = KEYWORDS[token.literal];
-                else
-                    token.type = TokenType::ILLEGAL;
-            }
-            else {
-                token.type = TokenType::ILLEGAL;
-            }
             break;
     }
+
+    if      (is_number(current_character)) {
+        token.type = TokenType::INT;
+        token.literal = read_number();
+    }
+    else if (is_letter(current_character)) {
+        token.literal = read_identifier();
+        auto it = KEYWORDS.find(token.literal);
+
+        if (it != KEYWORDS.end())
+            token.type = it->second;
+        else
+            token.type = TokenType::ILLEGAL;
+    }
+    else
+        token.type = TokenType::ILLEGAL;
 
     read_character();
 
