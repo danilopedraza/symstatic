@@ -45,3 +45,24 @@ TEST(EvaluatorTests, BoolEvaluation) {
         EXPECT_EQ(strings[i], boolean->str());
     }
 }
+
+
+TEST(EvaluatorTests, AssignEvaluation) {
+    std::vector<std::wstring> strings = {
+        L"a := falso \n a",
+        L"hola := verdadero \n hola",
+        L"número := 27 \n número"
+    };
+    std::vector<std::wstring> values = {
+        L"falso",
+        L"verdadero",
+        L"27"
+    };
+
+    for (int i = 0; i < 3; i++) {
+        Object::Object* res = eval(strings[i]);
+        
+        ASSERT_NE(nullptr, res);
+        EXPECT_EQ(values[i], res->str());
+    }
+}
