@@ -44,6 +44,12 @@ Expression* Parser::parse_expression() {
         case TokenType::INT:
             expression = parse_integer();
             break;
+        case TokenType::IDENT:
+            if (peek_token.type == TokenType::ASSIGN)
+                expression = parse_assignment();
+            else
+                expression = parse_identifier();
+            break;
         case TokenType::TRUE:
             expression = parse_boolean(true);
             break;
@@ -58,11 +64,29 @@ Expression* Parser::parse_expression() {
     return expression; 
 }
 
+Expression* Parser::parse_assignment() {
+    std::wstring name = current_token.literal;
+    advance_tokens(); // name token
+    advance_tokens(); // assignment token
+    
+    Expression *value = parse_expression();
+    if (value != nullptr)
+        return new Assignment(name, value);
+    // else...
+    return nullptr;
+}
+
 Expression* Parser::parse_boolean(bool value) {
     Boolean *boolean = new Boolean(value);
     advance_tokens();
 
     return boolean;
+}
+
+Expression* Parser::parse_identifier() {
+    Identifier *ident = new Identifier(current_token.literal);
+    advance_tokens();
+    return ident;
 }
 
 Expression* Parser::parse_integer() {    

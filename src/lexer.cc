@@ -18,15 +18,6 @@ Token Lexer::next_token() {
     token.line = line;
     token.column = column;
 
-    switch (current_character) {
-        case WEOF:
-            token.literal = WEOF;
-            token.type = TokenType::EOFILE;
-            break;
-        default:
-            break;
-    }
-
     if      (is_number(current_character)) {
         token.type = TokenType::INT;
         token.literal = read_number();
@@ -38,10 +29,26 @@ Token Lexer::next_token() {
         if (it != KEYWORDS.end())
             token.type = it->second;
         else
-            token.type = TokenType::ILLEGAL;
+            token.type = TokenType::IDENT;
     }
     else
-        token.type = TokenType::ILLEGAL;
+        switch (current_character) {
+            case L':':
+                if (peek_character() == L'=') {
+                    token.literal = L":=";
+                    token.type = TokenType::ASSIGN;
+                    read_character();
+                }
+                break;
+            case WEOF:
+                token.literal = WEOF;
+                token.type = TokenType::EOFILE;
+                break;
+            default:
+                token.type = TokenType::ILLEGAL;
+                break;
+        }
+        
 
     read_character();
 

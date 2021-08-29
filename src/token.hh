@@ -6,6 +6,8 @@
 enum class TokenType: int
 {
     EOFILE = -1,
+    ASSIGN,
+    IDENT,
     ILLEGAL,
     INT,
     TRUE,

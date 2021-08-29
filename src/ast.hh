@@ -6,8 +6,10 @@
 
 enum class ASTNodeType: int
 {
+    Assignment,
     Program,
     Boolean,
+    Identifier,
     Integer
 };
 
@@ -31,12 +33,36 @@ public:
 };
 
 
+class Assignment: public Expression
+{
+private:
+    std::wstring name;
+    Expression *value;
+public:
+    Assignment(std::wstring name, Expression *value);
+    std::wstring getName();
+    Expression *getValue();
+    void setValue(Expression *value);
+};
+
+
 class Boolean: public Expression
 {
 public:
     Boolean(bool value);
     bool value;
-}; 
+};
+
+
+class Identifier: public Expression
+{
+private:
+    std::wstring name;
+public:
+    Identifier(std::wstring name);
+    std::wstring getName();
+
+};
 
 
 class Integer: public Expression
@@ -45,5 +71,8 @@ public:
     Integer(Token token);
     long long value;
 };
+
+
+
 
 #endif
