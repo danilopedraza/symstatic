@@ -49,9 +49,9 @@ TEST(EvaluatorTests, BoolEvaluation) {
 
 TEST(EvaluatorTests, AssignEvaluation) {
     std::vector<std::wstring> strings = {
-        L"a:= falso \n a",
-        L"hola := verdadero\n\thola",
-        L"número :=27\nnúmero"
+        L"a:=falso \n a",
+        L"h0la    := verdadero\n\th0la",
+        L"número27 :=27\nnúmero27"
     };
     std::vector<std::wstring> values = {
         L"falso",
