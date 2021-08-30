@@ -49,9 +49,9 @@ TEST(EvaluatorTests, BoolEvaluation) {
 
 TEST(EvaluatorTests, AssignEvaluation) {
     std::vector<std::wstring> strings = {
-        L"a:= falso a",
-        L"hola := verdadero hola",
-        L"número := 27 número"
+        L"a:= falso \n a",
+        L"hola := verdadero\n\thola",
+        L"número :=27\nnúmero"
     };
     std::vector<std::wstring> values = {
         L"falso",
@@ -59,7 +59,7 @@ TEST(EvaluatorTests, AssignEvaluation) {
         L"27"
     };
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 3; i++) {
         Object::Object* res = eval(strings[i]);
         
         ASSERT_NE(nullptr, res) << "i = " << i;

@@ -11,7 +11,7 @@ public:
 
 private:
     void read_character();
-    void skip_whitespace();
+    void skip_all_spaces();
     void skip_lines();
     wchar_t peek_character();
 

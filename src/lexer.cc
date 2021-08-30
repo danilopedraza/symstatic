@@ -12,7 +12,7 @@ Lexer::Lexer(std::wstring source_) : source(source_) {
 };
 
 Token Lexer::next_token() {
-    skip_whitespace();
+    skip_all_spaces();
 
     Token token;
     token.line = line;
@@ -71,8 +71,12 @@ void Lexer::read_character() {
     }
 }
 
-void Lexer::skip_whitespace() {
-    while (current_character == L' ')
+void Lexer::skip_all_spaces() {
+    while (
+        current_character == L' '  ||
+        current_character == L'\n' ||
+        current_character == L'\t'
+    )
         read_character();
 }
 
@@ -120,8 +124,7 @@ std::wstring Lexer::read_identifier() {
     do {
         id += current_character;
         read_character();
-    } while ((is_number(current_character) || is_letter(current_character))
-          && position < source.length());
+    } while (is_number(current_character) || is_letter(current_character));
     
     return id;
 }
