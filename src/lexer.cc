@@ -31,7 +31,7 @@ Token Lexer::next_token() {
         else
             token.type = TokenType::IDENT;
     }
-    else
+    else {
         switch (current_character) {
             case L':':
                 if (peek_character() == L'=') {
@@ -48,9 +48,8 @@ Token Lexer::next_token() {
                 token.type = TokenType::ILLEGAL;
                 break;
         }
-        
-
-    read_character();
+        read_character();
+    }
 
     return token;
 }
