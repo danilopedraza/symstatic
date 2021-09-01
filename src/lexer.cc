@@ -40,6 +40,22 @@ Token Lexer::next_token() {
                     read_character();
                 }
                 break;
+            case L'(':
+                token.literal = L'(';
+                token.type = TokenType::LPAREN;
+                break;
+            case L')':
+                token.literal = L')';
+                token.type = TokenType::RPAREN;
+                break;
+            case L'+':
+                token.literal = L'+';
+                token.type = TokenType::PLUS;
+                break;
+            case L'-':
+                token.literal = L'-';
+                token.type = TokenType::MINUS;
+                break;
             case WEOF:
                 token.literal = WEOF;
                 token.type = TokenType::EOFILE;

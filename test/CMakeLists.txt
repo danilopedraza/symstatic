@@ -4,6 +4,7 @@ set(this proj-tests)
 
 set(sources
     eval-tests.cc
+    lexer-tests.cc
 )
 
 add_executable(${this} ${sources})

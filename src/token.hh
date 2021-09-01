@@ -10,7 +10,11 @@ enum class TokenType: int
     IDENT,
     ILLEGAL,
     INT,
+    LPAREN,
+    MINUS,
+    PLUS,
     TRUE,
+    RPAREN,
     FALSE
 };
 
