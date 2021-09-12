@@ -10,7 +10,7 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
     switch (node->type) {
         case ASTNodeType::Program: {
             Program* program = static_cast<Program*>(node);
-            return evaluateProgram(program);
+            return evaluate_program(program);
         } break;
         case ASTNodeType::Assignment: {
             Assignment* assign = static_cast<Assignment*>(node);
@@ -28,19 +28,51 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
             else
                 return nullptr; // error? idk
         } break;
+        case ASTNodeType::Infix: {
+            Infix* infix = static_cast<Infix*>(node);
+            return evaluate_infix(infix);
+        } break;
         case ASTNodeType::Integer: {
             Integer* newInt = static_cast<Integer*>(node);
             return new Object::Integer(newInt->value);
         } break;
         default:
-            return nullptr;
+            break;
     }
 
     return nullptr;
 }
 
 
-Object::Object* Evaluator::evaluateProgram(Program* program) {
+Object::Object* Evaluator::evaluate_infix(Infix *infix) {
+    if (infix->getLeft()->type != infix->getRight()->type)
+        return nullptr; // error (for now)
+    
+    ASTNodeType operand_type = infix->getLeft()->type;
+    switch (infix->getOp().type) {
+        case TokenType::PLUS:
+            if (operand_type == ASTNodeType::Integer)
+                return new Object::Integer(
+                    static_cast<Integer*>(infix->getLeft())->value +
+                    static_cast<Integer*>(infix->getRight())->value
+                );
+            break;
+        case TokenType::MINUS:
+            if (operand_type == ASTNodeType::Integer)
+                return new Object::Integer(
+                    static_cast<Integer*>(infix->getLeft())->value -
+                    static_cast<Integer*>(infix->getRight())->value
+                );
+            break;
+        default:
+            break;
+    }
+
+    return nullptr; // error
+}
+
+
+Object::Object* Evaluator::evaluate_program(Program* program) {
     Object::Object* res = nullptr;
 
     for (int i = 0; i < program->expressions.size(); i++) {

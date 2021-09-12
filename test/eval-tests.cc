@@ -69,5 +69,25 @@ TEST(EvaluatorTests, AssignEvaluation) {
 
 
 TEST(EvaluatorTests, InfixEvaluation) {
+    std::vector<std::wstring> strings = {
+        L"3+3",
+        L"2-5",
+        L"(2+6)",
+        L"(3+(8-1))",
+        L"a := (35+7)-(2-10)+1. a" 
+    };
+    std::vector<std::wstring> values = {
+        L"6",
+        L"-3",
+        L"8",
+        L"10",
+        L"51"
+    };
 
+    for (int i = 0; i < 1; i++) {
+        Object::Object* res = eval(strings[i]);
+        
+        ASSERT_NE(nullptr, res) << "i = " << i;
+        EXPECT_EQ(values[i], res->str());
+    }
 }
