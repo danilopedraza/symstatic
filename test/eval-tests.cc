@@ -66,3 +66,8 @@ TEST(EvaluatorTests, AssignEvaluation) {
         EXPECT_EQ(values[i], res->str());
     }
 }
+
+
+TEST(EvaluatorTests, InfixEvaluation) {
+
+}

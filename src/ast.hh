@@ -10,6 +10,7 @@ enum class ASTNodeType: int
     Program,
     Boolean,
     Identifier,
+    Infix,
     Integer
 };
 
@@ -62,6 +63,20 @@ public:
     Identifier(std::wstring name);
     std::wstring getName();
 
+};
+
+
+class Infix: public Expression
+{
+private:
+    Expression *left;
+    Token op;
+    Expression *right;
+public:
+    Infix(Expression *left, Token op, Expression *right);
+    Expression *getLeft();
+    Expression *getRight();
+    Token getOp();
 };
 
 

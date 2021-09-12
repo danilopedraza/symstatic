@@ -6,13 +6,13 @@
 
 TEST(LexerTests, ParenthesisTokenization) {
     std::vector<std::wstring> strings = {
-        L"(25+7)-resultado",
+        L"(25+7)-resultado.",
         L"súperVariableLargaYLatina := acc + (5-a)"
     };
     std::vector<std::vector<TokenType>> values = {
         {
             TokenType::LPAREN, TokenType::INT, TokenType::PLUS, TokenType::INT,
-            TokenType::RPAREN, TokenType::MINUS, TokenType::IDENT, TokenType::EOFILE
+            TokenType::RPAREN, TokenType::MINUS, TokenType::IDENT, TokenType::POINT, TokenType::EOFILE
         },
         {
             TokenType::IDENT, TokenType::ASSIGN, TokenType::IDENT, TokenType::PLUS,

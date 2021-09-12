@@ -12,6 +12,7 @@ enum class TokenType: int
     INT,
     LPAREN,
     MINUS,
+    POINT,
     PLUS,
     TRUE,
     RPAREN,

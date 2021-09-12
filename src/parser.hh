@@ -1,6 +1,8 @@
 #ifndef PARSER_HH
 #define PARSER_HH
 
+#include "libraries.hh"
+
 #include "lexer.hh"
 #include "ast.hh"
 
@@ -17,12 +19,32 @@ private:
 
     void advance_tokens();
     bool expected_token(TokenType token_type);
+
+    std::unordered_set <TokenType> INFIX_OPERATORS = {
+        TokenType::PLUS,
+        TokenType::MINUS
+    };
+
+    enum class PRECEDENCES: int
+    {
+        LOWEST,
+        SUM
+    };
+
+    std::unordered_map <TokenType, PRECEDENCES> PRECEDENCE = {
+        {TokenType::PLUS, PRECEDENCES::SUM},
+        {TokenType::MINUS, PRECEDENCES::SUM}
+    };
+
+    PRECEDENCES current_precedence();
     
     Expression *parse_assignment();
-    Expression* parse_expression();
+    Expression* parse_expression(PRECEDENCES precedence);
     Expression* parse_boolean(bool value);
     Expression* parse_identifier();
+    Expression* parse_infix(Expression *left);
     Expression* parse_integer();
+    Expression* parse_parenthesis();
 };
 
 #endif

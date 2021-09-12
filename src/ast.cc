@@ -30,6 +30,17 @@ Identifier::Identifier(std::wstring name) {
 std::wstring Identifier::getName() {return name;}
 
 
+Infix::Infix(Expression *left, Token op, Expression *right) {
+    type = ASTNodeType::Infix;
+
+    this->left = left;
+    this->op = op;
+    this->right = right;
+}
+Expression* Infix::getLeft() {return left;}
+Expression* Infix::getRight() {return right;}
+Token Infix::getOp() {return op;}
+
 Integer::Integer(Token token) {
     type = ASTNodeType::Integer;
     value = std::stoi(token.literal);

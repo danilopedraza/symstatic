@@ -56,6 +56,10 @@ Token Lexer::next_token() {
                 token.literal = L'-';
                 token.type = TokenType::MINUS;
                 break;
+            case L'.':
+                token.literal = L'.';
+                token.type = TokenType::POINT;
+                break;
             case WEOF:
                 token.literal = WEOF;
                 token.type = TokenType::EOFILE;
