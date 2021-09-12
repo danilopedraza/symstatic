@@ -110,7 +110,6 @@ Expression* Parser::parse_identifier() {
 }
 
 Expression* Parser::parse_infix(Expression *left) {
-    // TODO XD
     Token op = current_token;
     PRECEDENCES cur_prec = current_precedence();
     advance_tokens(); // op token
