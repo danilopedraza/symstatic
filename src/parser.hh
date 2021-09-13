@@ -22,18 +22,23 @@ private:
 
     std::unordered_set <TokenType> INFIX_OPERATORS = {
         TokenType::PLUS,
-        TokenType::MINUS
+        TokenType::MINUS,
+        TokenType::MULTIPLICATION,
+        TokenType::DIVISION
     };
 
     enum class PRECEDENCES: int
     {
         LOWEST,
-        SUM
+        SUM,
+        PRODUCT
     };
 
     std::unordered_map <TokenType, PRECEDENCES> PRECEDENCE = {
         {TokenType::PLUS, PRECEDENCES::SUM},
-        {TokenType::MINUS, PRECEDENCES::SUM}
+        {TokenType::MINUS, PRECEDENCES::SUM},
+        {TokenType::MULTIPLICATION, PRECEDENCES::PRODUCT},
+        {TokenType::DIVISION, PRECEDENCES::PRODUCT}
     };
 
     PRECEDENCES current_precedence();

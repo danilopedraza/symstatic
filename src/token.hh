@@ -7,11 +7,13 @@ enum class TokenType: int
 {
     EOFILE = -1,
     ASSIGN,
+    DIVISION,
     IDENT,
     ILLEGAL,
     INT,
     LPAREN,
     MINUS,
+    MULTIPLICATION,
     POINT,
     PLUS,
     TRUE,

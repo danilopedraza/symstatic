@@ -68,6 +68,20 @@ Object::Object* Evaluator::evaluate_infix(Infix *infix) {
                     static_cast<Object::Integer*>(right)->value
                 );
             break;
+        case TokenType::MULTIPLICATION:
+            if (operand_type == Object::ObjectType::Integer)
+                return new Object::Integer(
+                    static_cast<Object::Integer*>(left)->value *
+                    static_cast<Object::Integer*>(right)->value
+                );
+            break;
+        case TokenType::DIVISION:
+            if (operand_type == Object::ObjectType::Integer)
+                return new Object::Integer(
+                    static_cast<Object::Integer*>(left)->value /
+                    static_cast<Object::Integer*>(right)->value
+                );
+            break;
         default:
             break;
     }
