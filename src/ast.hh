@@ -7,6 +7,7 @@
 enum class ASTNodeType: int
 {
     Assignment,
+    Block,
     Program,
     Boolean,
     Identifier,
@@ -52,6 +53,14 @@ class Boolean: public Expression
 public:
     Boolean(bool value);
     bool value;
+};
+
+
+class Block: public Expression
+{
+public:
+    Block();
+    std::vector<Expression* > routine;
 };
 
 

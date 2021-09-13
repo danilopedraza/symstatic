@@ -23,6 +23,11 @@ Boolean::Boolean(bool value) {
 }
 
 
+Block::Block() {
+    type = ASTNodeType::Block;
+}
+
+
 Identifier::Identifier(std::wstring name) {
     type = ASTNodeType::Identifier;
     this->name = name;

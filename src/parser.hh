@@ -43,9 +43,10 @@ private:
 
     PRECEDENCES current_precedence();
     
-    Expression *parse_assignment();
-    Expression* parse_expression(PRECEDENCES precedence);
+    Expression* parse_assignment();
+    Expression* parse_block();
     Expression* parse_boolean(bool value);
+    Expression* parse_expression(PRECEDENCES precedence);
     Expression* parse_identifier();
     Expression* parse_infix(Expression *left);
     Expression* parse_integer();

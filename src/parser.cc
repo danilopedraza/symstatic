@@ -43,6 +43,27 @@ Parser::PRECEDENCES Parser::current_precedence() {
 }
 
 
+Expression* Parser::parse_block() {
+    advance_tokens(); // left brace
+    
+    Block *block = new Block();
+    while (
+        current_token.type != TokenType::RBRACE &&
+        current_token.type != TokenType::EOFILE
+    ) {
+        Expression *exp = parse_expression(PRECEDENCES::LOWEST);
+        if (exp != nullptr)
+            block->routine.push_back(exp);
+        else
+            return nullptr; // error (probably managed before arriving here)
+    }
+    
+    if (!expected_token(TokenType::RBRACE))
+        return nullptr; // error
+    return block;
+}
+
+
 Expression* Parser::parse_expression(PRECEDENCES precedence) {
     Expression *expression = nullptr;
     
