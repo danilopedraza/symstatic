@@ -8,10 +8,6 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
         return nullptr;
     
     switch (node->type) {
-        case ASTNodeType::Program: {
-            Program* program = static_cast<Program*>(node);
-            return evaluate_program(program);
-        } break;
         case ASTNodeType::Assignment: {
             Assignment* assign = static_cast<Assignment*>(node);
             env[assign->getName()] = evaluate(assign->getValue());
@@ -35,6 +31,10 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
         case ASTNodeType::Integer: {
             Integer* newInt = static_cast<Integer*>(node);
             return new Object::Integer(newInt->value);
+        } break;
+        case ASTNodeType::Program: {
+            Program* program = static_cast<Program*>(node);
+            return evaluate_program(program);
         } break;
         default:
             break;

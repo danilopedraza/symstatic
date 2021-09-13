@@ -66,7 +66,7 @@ Expression* Parser::parse_expression(PRECEDENCES precedence) {
             expression = parse_parenthesis();
             break;
         case TokenType::POINT:
-            advance_tokens();
+            advance_tokens(); // error
             break;
         default: // error
             return nullptr;
@@ -122,7 +122,6 @@ Expression* Parser::parse_infix(Expression *left) {
 }
 
 Expression* Parser::parse_integer() {
-    // TODO: pass number to Integer(), not the entire token
     Integer *integer = new Integer(current_token);
     advance_tokens();
 
