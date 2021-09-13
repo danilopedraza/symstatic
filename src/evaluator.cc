@@ -45,23 +45,27 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
 
 
 Object::Object* Evaluator::evaluate_infix(Infix *infix) {
-    if (infix->getLeft()->type != infix->getRight()->type)
+    Object::Object *left = evaluate(infix->getLeft());
+    Object::Object *right = evaluate(infix->getRight());
+    if (left == nullptr || right == nullptr)
+        return nullptr; // error
+    if (left->type != right->type)
         return nullptr; // error (for now)
     
-    ASTNodeType operand_type = infix->getLeft()->type;
+    Object::ObjectType operand_type = left->type;
     switch (infix->getOp().type) {
         case TokenType::PLUS:
-            if (operand_type == ASTNodeType::Integer)
+            if (operand_type == Object::ObjectType::Integer)
                 return new Object::Integer(
-                    static_cast<Integer*>(infix->getLeft())->value +
-                    static_cast<Integer*>(infix->getRight())->value
+                    static_cast<Object::Integer*>(left)->value +
+                    static_cast<Object::Integer*>(right)->value
                 );
             break;
         case TokenType::MINUS:
-            if (operand_type == ASTNodeType::Integer)
+            if (operand_type == Object::ObjectType::Integer)
                 return new Object::Integer(
-                    static_cast<Integer*>(infix->getLeft())->value -
-                    static_cast<Integer*>(infix->getRight())->value
+                    static_cast<Object::Integer*>(left)->value -
+                    static_cast<Object::Integer*>(right)->value
                 );
             break;
         default:

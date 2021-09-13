@@ -74,7 +74,6 @@ Expression* Parser::parse_expression(PRECEDENCES precedence) {
 
     while (
         INFIX_OPERATORS.count(current_token.type) &&
-        peek_token.type != TokenType::POINT &&
         precedence < current_precedence()
     ) {
         expression = parse_infix(expression);

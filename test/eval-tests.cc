@@ -73,7 +73,7 @@ TEST(EvaluatorTests, InfixEvaluation) {
         L"3+3",
         L"2-5",
         L"(2+6)",
-        L"(3+(8-0))",
+        L"(3-(0-8))",
         L"a := (35+7)-(2-10)+1. a" 
     };
     std::vector<std::wstring> values = {
