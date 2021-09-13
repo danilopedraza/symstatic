@@ -6,19 +6,28 @@
 enum class TokenType: int
 {
     EOFILE = -1,
+    AND,
     ASSIGN,
     DIVISION,
+    DO,
+    FALSE,
+    FOR,
     IDENT,
+    IF,
     ILLEGAL,
     INT,
+    LBRACE,
     LPAREN,
     MINUS,
     MULTIPLICATION,
+    NOT,
+    OR,
     POINT,
     PLUS,
     TRUE,
+    RBRACE,
     RPAREN,
-    FALSE
+    WHILE
 };
 
 

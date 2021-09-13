@@ -28,7 +28,14 @@ private:
 
     std::unordered_map<std::wstring, TokenType> KEYWORDS = {
         {L"verdadero", TokenType::TRUE},
-        {L"falso", TokenType::FALSE}
+        {L"falso", TokenType::FALSE},
+        {L"si", TokenType::IF},
+        {L"para", TokenType::FOR},
+        {L"mientras", TokenType::WHILE},
+        {L"hacer", TokenType::DO},
+        {L"y", TokenType::AND},
+        {L"o", TokenType::OR},
+        {L"no", TokenType::NOT}
     };
 };
 

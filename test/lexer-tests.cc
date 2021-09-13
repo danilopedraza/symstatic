@@ -29,3 +29,33 @@ TEST(LexerTests, ParenthesisTokenization) {
         }
     }
 }
+
+
+TEST(LexerTests, KeyWordsTokenization) {
+    std::vector<std::wstring> strings = {
+        L"si verdadero \n{a:=5+1.}",
+        L"para todo {hacer {a := (a o falso) y verdadero.} mientras seMantieneEstaCondición.}",
+
+    };
+    std::vector<std::vector<TokenType>> values = {
+        {
+            TokenType::IF, TokenType::TRUE, TokenType::LBRACE, TokenType::IDENT,
+            TokenType::ASSIGN, TokenType::INT, TokenType::PLUS, TokenType::INT, TokenType::POINT
+        },
+        {
+            TokenType::FOR, TokenType::IDENT, TokenType::LBRACE, TokenType::DO, TokenType::LBRACE,
+            TokenType::IDENT, TokenType::ASSIGN, TokenType::LPAREN, TokenType::IDENT, TokenType::OR,
+            TokenType::FALSE, TokenType::RPAREN, TokenType::AND, TokenType::TRUE, TokenType::POINT,
+            TokenType::RBRACE, TokenType::WHILE, TokenType::IDENT, TokenType::POINT, TokenType::RBRACE
+        }
+    };
+
+    for (int i = 0; i < 2; i++) {
+        Lexer lexer = Lexer(strings[i]);
+
+        for (int token = 0; token < (int)values[i].size(); token++) {
+            Token cur = lexer.next_token();
+            EXPECT_EQ(values[i][token], cur.type) << "i = " << i << " chr = " << cur.literal;
+        }
+    }
+}

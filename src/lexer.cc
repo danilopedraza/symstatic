@@ -48,6 +48,14 @@ Token Lexer::next_token() {
                 token.literal = L')';
                 token.type = TokenType::RPAREN;
                 break;
+            case L'{':
+                token.literal = L'{';
+                token.type = TokenType::LBRACE;
+                break;
+            case L'}':
+                token.literal = L'}';
+                token.type = TokenType::RBRACE;
+                break;
             case L'+':
                 token.literal = L'+';
                 token.type = TokenType::PLUS;
