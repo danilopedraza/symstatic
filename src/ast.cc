@@ -3,7 +3,6 @@
 
 Program::Program() {
     type = ASTNodeType::Program;
-    ASTNodes = std::vector<ASTNode* >();
 }
 
 
@@ -56,6 +55,7 @@ Infix::Infix(ASTNode *left, Token op, ASTNode *right) {
 ASTNode* Infix::getLeft() {return left;}
 ASTNode* Infix::getRight() {return right;}
 Token Infix::getOp() {return op;}
+
 
 Integer::Integer(Token token) {
     type = ASTNodeType::Integer;

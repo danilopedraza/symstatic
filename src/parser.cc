@@ -1,9 +1,9 @@
+#include "ast.hh"
+#include "lexer.hh"
 #include "parser.hh"
 
-#include "ast.hh"
 
-Parser::Parser(Lexer lexer_) : lexer(lexer_) {
-    ident_level = 0;
+Parser::Parser(Lexer lexer) : lexer(lexer) {
     advance_tokens();
     advance_tokens();
 };

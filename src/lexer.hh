@@ -6,9 +6,8 @@
 class Lexer
 {
 public:
-    Lexer(std::wstring source_);
+    Lexer(std::wstring source);
     Token next_token();
-
 private:
     void read_character();
     void skip_all_spaces();

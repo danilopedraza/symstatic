@@ -2,14 +2,15 @@
 #include "lexer.hh"
 #include "token.hh"
 
-Lexer::Lexer(std::wstring source_) : source(source_) {
+Lexer::Lexer(std::wstring source) {
+    this->source = source;
     position = read_position
              = line
              = 0;
     
     column = -1; //read_character() will put it in 0
     read_character();
-};
+}
 
 Token Lexer::next_token() {
     skip_all_spaces();

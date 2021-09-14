@@ -9,13 +9,12 @@
 class Parser
 {
 public:
-    Parser(Lexer lexer_);
+    Parser(Lexer lexer);
     Program* parse_program();
 private:
     Lexer lexer;
     Token current_token;
     Token peek_token;
-    unsigned int ident_level;
 
     void advance_tokens();
     bool expected_token(TokenType token_type);
