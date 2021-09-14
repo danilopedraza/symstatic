@@ -93,8 +93,8 @@ Object::Object* Evaluator::evaluate_infix(Infix *infix) {
 Object::Object* Evaluator::evaluate_program(Program* program) {
     Object::Object* res = nullptr;
 
-    for (int i = 0; i < program->expressions.size(); i++) {
-        res = evaluate(program->expressions[i]);
+    for (int i = 0; i < program->ASTNodes.size(); i++) {
+        res = evaluate(program->ASTNodes[i]);
     }
 
     return res;

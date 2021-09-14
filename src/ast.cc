@@ -3,18 +3,18 @@
 
 Program::Program() {
     type = ASTNodeType::Program;
-    expressions = std::vector<Expression* >();
+    ASTNodes = std::vector<ASTNode* >();
 }
 
 
-Assignment::Assignment(std::wstring name, Expression *value) {
+Assignment::Assignment(std::wstring name, ASTNode *value) {
     type = ASTNodeType::Assignment;
     this->name = name;
     this->value = value;
 }
 std::wstring Assignment::getName() {return name;}
-Expression* Assignment::getValue() {return value;}
-void Assignment::setValue(Expression *value) {this->value = value;}
+ASTNode* Assignment::getValue() {return value;}
+void Assignment::setValue(ASTNode *value) {this->value = value;}
 
 
 Boolean::Boolean(bool value) {
@@ -35,15 +35,15 @@ Identifier::Identifier(std::wstring name) {
 std::wstring Identifier::getName() {return name;}
 
 
-Infix::Infix(Expression *left, Token op, Expression *right) {
+Infix::Infix(ASTNode *left, Token op, ASTNode *right) {
     type = ASTNodeType::Infix;
 
     this->left = left;
     this->op = op;
     this->right = right;
 }
-Expression* Infix::getLeft() {return left;}
-Expression* Infix::getRight() {return right;}
+ASTNode* Infix::getLeft() {return left;}
+ASTNode* Infix::getRight() {return right;}
 Token Infix::getOp() {return op;}
 
 Integer::Integer(Token token) {

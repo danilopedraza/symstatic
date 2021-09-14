@@ -43,14 +43,14 @@ private:
 
     PRECEDENCES current_precedence();
     
-    Expression* parse_assignment();
-    Expression* parse_block();
-    Expression* parse_boolean(bool value);
-    Expression* parse_expression(PRECEDENCES precedence);
-    Expression* parse_identifier();
-    Expression* parse_infix(Expression *left);
-    Expression* parse_integer();
-    Expression* parse_parenthesis();
+    ASTNode* parse_assignment();
+    ASTNode* parse_block();
+    ASTNode* parse_boolean(bool value);
+    ASTNode* parse_ASTNode(PRECEDENCES precedence);
+    ASTNode* parse_identifier();
+    ASTNode* parse_infix(ASTNode *left);
+    ASTNode* parse_integer();
+    ASTNode* parse_parenthesis();
 };
 
 #endif

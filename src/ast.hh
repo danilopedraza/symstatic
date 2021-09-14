@@ -23,32 +23,30 @@ public:
 };
 
 
-class Expression: public ASTNode {};
-
 
 class Program: public ASTNode
 {
 public:
-    std::vector<Expression* > expressions;
+    std::vector<ASTNode* > ASTNodes;
 
     Program();
 };
 
 
-class Assignment: public Expression
+class Assignment: public ASTNode
 {
 private:
     std::wstring name;
-    Expression *value;
+    ASTNode *value;
 public:
-    Assignment(std::wstring name, Expression *value);
+    Assignment(std::wstring name, ASTNode *value);
     std::wstring getName();
-    Expression *getValue();
-    void setValue(Expression *value);
+    ASTNode *getValue();
+    void setValue(ASTNode *value);
 };
 
 
-class Boolean: public Expression
+class Boolean: public ASTNode
 {
 public:
     Boolean(bool value);
@@ -56,15 +54,15 @@ public:
 };
 
 
-class Block: public Expression
+class Block: public ASTNode
 {
 public:
     Block();
-    std::vector<Expression* > routine;
+    std::vector<ASTNode* > routine;
 };
 
 
-class Identifier: public Expression
+class Identifier: public ASTNode
 {
 private:
     std::wstring name;
@@ -75,21 +73,21 @@ public:
 };
 
 
-class Infix: public Expression
+class Infix: public ASTNode
 {
 private:
-    Expression *left;
+    ASTNode *left;
     Token op;
-    Expression *right;
+    ASTNode *right;
 public:
-    Infix(Expression *left, Token op, Expression *right);
-    Expression *getLeft();
-    Expression *getRight();
+    Infix(ASTNode *left, Token op, ASTNode *right);
+    ASTNode *getLeft();
+    ASTNode *getRight();
     Token getOp();
 };
 
 
-class Integer: public Expression
+class Integer: public ASTNode
 {
 public:
     Integer(Token token);

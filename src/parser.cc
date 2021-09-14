@@ -12,11 +12,11 @@ Program* Parser::parse_program() {
     Program* program = new Program();
 
     while (current_token.type != TokenType::EOFILE) {
-        Expression *expression = parse_expression(PRECEDENCES::LOWEST);
-        if (expression == nullptr) // there is an error
+        ASTNode *ASTNode = parse_ASTNode(PRECEDENCES::LOWEST);
+        if (ASTNode == nullptr) // there is an error
             break;
         else
-            program->expressions.push_back(expression);
+            program->ASTNodes.push_back(ASTNode);
     }
 
     return program;
@@ -43,7 +43,7 @@ Parser::PRECEDENCES Parser::current_precedence() {
 }
 
 
-Expression* Parser::parse_block() {
+ASTNode* Parser::parse_block() {
     advance_tokens(); // left brace
     
     Block *block = new Block();
@@ -51,7 +51,7 @@ Expression* Parser::parse_block() {
         current_token.type != TokenType::RBRACE &&
         current_token.type != TokenType::EOFILE
     ) {
-        Expression *exp = parse_expression(PRECEDENCES::LOWEST);
+        ASTNode *exp = parse_ASTNode(PRECEDENCES::LOWEST);
         if (exp != nullptr)
             block->routine.push_back(exp);
         else
@@ -64,27 +64,27 @@ Expression* Parser::parse_block() {
 }
 
 
-Expression* Parser::parse_expression(PRECEDENCES precedence) {
-    Expression *expression = nullptr;
+ASTNode* Parser::parse_ASTNode(PRECEDENCES precedence) {
+    ASTNode *ASTNode = nullptr;
     
     switch (current_token.type) {
         case TokenType::INT:
-            expression = parse_integer();
+            ASTNode = parse_integer();
             break;
         case TokenType::IDENT:
             if (peek_token.type == TokenType::ASSIGN)
-                expression = parse_assignment();
+                ASTNode = parse_assignment();
             else
-                expression = parse_identifier();
+                ASTNode = parse_identifier();
             break;
         case TokenType::TRUE:
-            expression = parse_boolean(true);
+            ASTNode = parse_boolean(true);
             break;
         case TokenType::FALSE:
-            expression = parse_boolean(false);
+            ASTNode = parse_boolean(false);
             break;
         case TokenType::LPAREN:
-            expression = parse_parenthesis();
+            ASTNode = parse_parenthesis();
             break;
         case TokenType::POINT:
             advance_tokens(); // error
@@ -97,44 +97,44 @@ Expression* Parser::parse_expression(PRECEDENCES precedence) {
         INFIX_OPERATORS.count(current_token.type) &&
         precedence < current_precedence()
     ) {
-        expression = parse_infix(expression);
+        ASTNode = parse_infix(ASTNode);
     }
 
     expected_token(TokenType::POINT); // just pass if there is a point
-    return expression; 
+    return ASTNode; 
 }
 
-Expression* Parser::parse_assignment() {
+ASTNode* Parser::parse_assignment() {
     std::wstring name = current_token.literal;
     advance_tokens(); // name token
     advance_tokens(); // assignment token
     
-    Expression *value = parse_expression(PRECEDENCES::LOWEST);
+    ASTNode *value = parse_ASTNode(PRECEDENCES::LOWEST);
     if (value != nullptr)
         return new Assignment(name, value);
     // else...
     return nullptr;
 }
 
-Expression* Parser::parse_boolean(bool value) {
+ASTNode* Parser::parse_boolean(bool value) {
     Boolean *boolean = new Boolean(value);
     advance_tokens();
 
     return boolean;
 }
 
-Expression* Parser::parse_identifier() {
+ASTNode* Parser::parse_identifier() {
     Identifier *ident = new Identifier(current_token.literal);
     advance_tokens();
     return ident;
 }
 
-Expression* Parser::parse_infix(Expression *left) {
+ASTNode* Parser::parse_infix(ASTNode *left) {
     Token op = current_token;
     PRECEDENCES cur_prec = current_precedence();
     advance_tokens(); // op token
     
-    Expression *right = parse_expression(cur_prec);
+    ASTNode *right = parse_ASTNode(cur_prec);
     
     if (right == nullptr)
         return nullptr;
@@ -142,16 +142,16 @@ Expression* Parser::parse_infix(Expression *left) {
     return new Infix(left, op, right);
 }
 
-Expression* Parser::parse_integer() {
+ASTNode* Parser::parse_integer() {
     Integer *integer = new Integer(current_token);
     advance_tokens();
 
     return integer;
 }
 
-Expression* Parser::parse_parenthesis() {
+ASTNode* Parser::parse_parenthesis() {
     advance_tokens(); // left parenthesis
-    Expression *exp = parse_expression(PRECEDENCES::LOWEST);
+    ASTNode *exp = parse_ASTNode(PRECEDENCES::LOWEST);
     if (expected_token(TokenType::RPAREN)) // right parenthesis if there is one
         return exp;
     return nullptr; // error
