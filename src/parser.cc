@@ -8,15 +8,33 @@ Parser::Parser(Lexer lexer_) : lexer(lexer_) {
     advance_tokens();
 };
 
+ASTNode* Parser::parse_anything() {
+    ASTNode *node = nullptr;
+    if (
+        current_token.type == TokenType::IDENT &&
+        peek_token.type    == TokenType::ASSIGN
+    )
+        node = parse_assignment();
+    
+    else if (current_token.type == TokenType::IF)
+        node = parse_if();
+    else
+        node = parse_expression(PRECEDENCES::LOWEST);
+    
+    return node;
+}
+
 Program* Parser::parse_program() {
     Program* program = new Program();
 
     while (current_token.type != TokenType::EOFILE) {
-        ASTNode *ASTNode = parse_ASTNode(PRECEDENCES::LOWEST);
-        if (ASTNode == nullptr) // there is an error
-            break;
+        ASTNode *node = parse_anything();
+        
+        if (node == nullptr)
+            break; // error
         else
-            program->ASTNodes.push_back(ASTNode);
+            program->ASTNodes.push_back(node);
+        
     }
 
     return program;
@@ -44,14 +62,15 @@ Parser::PRECEDENCES Parser::current_precedence() {
 
 
 ASTNode* Parser::parse_block() {
-    advance_tokens(); // left brace
+    if (!expected_token(TokenType::LBRACE))
+        return nullptr; //error
     
     Block *block = new Block();
     while (
         current_token.type != TokenType::RBRACE &&
         current_token.type != TokenType::EOFILE
     ) {
-        ASTNode *exp = parse_ASTNode(PRECEDENCES::LOWEST);
+        ASTNode *exp = parse_anything();
         if (exp != nullptr)
             block->routine.push_back(exp);
         else
@@ -64,27 +83,24 @@ ASTNode* Parser::parse_block() {
 }
 
 
-ASTNode* Parser::parse_ASTNode(PRECEDENCES precedence) {
-    ASTNode *ASTNode = nullptr;
+ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
+    ASTNode *node = nullptr;
     
     switch (current_token.type) {
         case TokenType::INT:
-            ASTNode = parse_integer();
+            node = parse_integer();
             break;
         case TokenType::IDENT:
-            if (peek_token.type == TokenType::ASSIGN)
-                ASTNode = parse_assignment();
-            else
-                ASTNode = parse_identifier();
+            node = parse_identifier();
             break;
         case TokenType::TRUE:
-            ASTNode = parse_boolean(true);
+            node = parse_boolean(true);
             break;
         case TokenType::FALSE:
-            ASTNode = parse_boolean(false);
+            node = parse_boolean(false);
             break;
         case TokenType::LPAREN:
-            ASTNode = parse_parenthesis();
+            node = parse_parenthesis();
             break;
         case TokenType::POINT:
             advance_tokens(); // error
@@ -97,11 +113,11 @@ ASTNode* Parser::parse_ASTNode(PRECEDENCES precedence) {
         INFIX_OPERATORS.count(current_token.type) &&
         precedence < current_precedence()
     ) {
-        ASTNode = parse_infix(ASTNode);
+        node = parse_infix(node);
     }
 
     expected_token(TokenType::POINT); // just pass if there is a point
-    return ASTNode; 
+    return node; 
 }
 
 ASTNode* Parser::parse_assignment() {
@@ -109,7 +125,7 @@ ASTNode* Parser::parse_assignment() {
     advance_tokens(); // name token
     advance_tokens(); // assignment token
     
-    ASTNode *value = parse_ASTNode(PRECEDENCES::LOWEST);
+    ASTNode *value = parse_expression(PRECEDENCES::LOWEST);
     if (value != nullptr)
         return new Assignment(name, value);
     // else...
@@ -129,12 +145,29 @@ ASTNode* Parser::parse_identifier() {
     return ident;
 }
 
+
+ASTNode* Parser::parse_if() {
+    advance_tokens(); // if token
+    ASTNode *condition = parse_expression(PRECEDENCES::LOWEST);
+    if (condition == nullptr)
+        return nullptr; // error
+    
+    ASTNode *consequence = parse_block();
+
+    ASTNode *alternative = nullptr;
+    if (expected_token(TokenType::ELSE))
+        alternative = parse_block();
+
+    return new If(condition, consequence, alternative);
+}
+
+
 ASTNode* Parser::parse_infix(ASTNode *left) {
     Token op = current_token;
     PRECEDENCES cur_prec = current_precedence();
     advance_tokens(); // op token
     
-    ASTNode *right = parse_ASTNode(cur_prec);
+    ASTNode *right = parse_expression(cur_prec);
     
     if (right == nullptr)
         return nullptr;
@@ -151,7 +184,7 @@ ASTNode* Parser::parse_integer() {
 
 ASTNode* Parser::parse_parenthesis() {
     advance_tokens(); // left parenthesis
-    ASTNode *exp = parse_ASTNode(PRECEDENCES::LOWEST);
+    ASTNode *exp = parse_expression(PRECEDENCES::LOWEST);
     if (expected_token(TokenType::RPAREN)) // right parenthesis if there is one
         return exp;
     return nullptr; // error

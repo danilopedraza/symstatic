@@ -10,6 +10,7 @@ enum class TokenType: int
     ASSIGN,
     DIVISION,
     DO,
+    ELSE,
     FALSE,
     FOR,
     IDENT,

@@ -93,3 +93,22 @@ TEST(EvaluatorTests, InfixEvaluation) {
         EXPECT_EQ(values[i], res->str());
     }
 }
+
+
+TEST(EvaluatorTests, IfEvaluation) {
+    std::vector<std::wstring> strings = {
+        L"si verdadero {5.}",
+        L"a:=5. si falso {a := 1.} sino {a := a+2. a.}"
+    };
+    std::vector<std::wstring> values = {
+        L"5",
+        L"7"
+    };
+
+    for (int i = 0; i < 2; i++) {
+        Object::Object* res = eval(strings[i]);
+        
+        ASSERT_NE(nullptr, res) << "i = " << i;
+        EXPECT_EQ(values[i], res->str()) << "i = " << i;
+    }
+}

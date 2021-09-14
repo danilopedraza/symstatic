@@ -30,6 +30,7 @@ private:
         {L"verdadero", TokenType::TRUE},
         {L"falso", TokenType::FALSE},
         {L"si", TokenType::IF},
+        {L"sino", TokenType::ELSE},
         {L"para", TokenType::FOR},
         {L"mientras", TokenType::WHILE},
         {L"hacer", TokenType::DO},

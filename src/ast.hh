@@ -11,6 +11,7 @@ enum class ASTNodeType: int
     Program,
     Boolean,
     Identifier,
+    If,
     Infix,
     Integer
 };
@@ -70,6 +71,20 @@ public:
     Identifier(std::wstring name);
     std::wstring getName();
 
+};
+
+
+class If: public ASTNode
+{
+private:
+    ASTNode *condition;
+    ASTNode *consequence;
+    ASTNode *alternative;
+public:
+    If(ASTNode *condition, ASTNode *consequence, ASTNode *alternative);
+    ASTNode* getCondition();
+    ASTNode* getConsequence();
+    ASTNode* getAlternative();
 };
 
 

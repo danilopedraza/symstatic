@@ -43,11 +43,13 @@ private:
 
     PRECEDENCES current_precedence();
     
+    ASTNode* parse_anything();
     ASTNode* parse_assignment();
     ASTNode* parse_block();
     ASTNode* parse_boolean(bool value);
-    ASTNode* parse_ASTNode(PRECEDENCES precedence);
+    ASTNode* parse_expression(PRECEDENCES precedence);
     ASTNode* parse_identifier();
+    ASTNode* parse_if();
     ASTNode* parse_infix(ASTNode *left);
     ASTNode* parse_integer();
     ASTNode* parse_parenthesis();

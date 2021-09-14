@@ -35,6 +35,17 @@ Identifier::Identifier(std::wstring name) {
 std::wstring Identifier::getName() {return name;}
 
 
+If::If(ASTNode *condition, ASTNode *consequence, ASTNode *alternative) {
+    type = ASTNodeType::If;
+    this->condition = condition;
+    this->consequence = consequence;
+    this->alternative = alternative;
+}
+ASTNode *If::getCondition() {return condition;}
+ASTNode *If::getConsequence() {return consequence;}
+ASTNode *If::getAlternative() {return alternative;}
+
+
 Infix::Infix(ASTNode *left, Token op, ASTNode *right) {
     type = ASTNodeType::Infix;
 

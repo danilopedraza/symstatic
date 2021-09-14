@@ -24,6 +24,10 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
             else
                 return nullptr; // error? idk
         } break;
+        case ASTNodeType::If: {
+            If *if_node = static_cast<If*>(node);
+            return evaluate_if(if_node);
+        } break;
         case ASTNodeType::Infix: {
             Infix* infix = static_cast<Infix*>(node);
             return evaluate_infix(infix);
@@ -41,6 +45,27 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
     }
 
     return nullptr;
+}
+
+
+Object::Object* Evaluator::evaluate_block(Block *block) {
+    Object::Object *res = nullptr;
+    for (int i = 0; i < block->routine.size(); i++)
+        res = evaluate(block->routine[i]);
+    
+    return res;
+}
+
+
+Object::Object* Evaluator::evaluate_if(If *if_node) {
+    Object::Object *condition = evaluate(if_node->getCondition());
+    if (condition->type != Object::ObjectType::Boolean)
+        return nullptr;
+    
+    bool value = static_cast<Object::Boolean*>(condition)->value;
+    ASTNode *res = value? if_node->getConsequence() : if_node->getAlternative();
+    
+    return evaluate_block(static_cast<Block*>(res));
 }
 
 

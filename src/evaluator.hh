@@ -12,6 +12,8 @@ public:
     std::unordered_map<std::wstring, Object::Object*> env;
 
     Object::Object* evaluate(ASTNode *node);
+    Object::Object* evaluate_block(Block *block);
+    Object::Object* evaluate_if(If *if_node);
     Object::Object* evaluate_infix(Infix *infix);
     Object::Object* evaluate_program(Program *program);
 };
