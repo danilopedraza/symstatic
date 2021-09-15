@@ -48,7 +48,7 @@ private:
     ASTNode* parse_anything();
     ASTNode* parse_assignment();
     ASTNode* parse_block();
-    ASTNode* parse_boolean(bool value);
+    ASTNode* parse_boolean();
     ASTNode* parse_expression(PRECEDENCES precedence);
     ASTNode* parse_identifier();
     ASTNode* parse_if();

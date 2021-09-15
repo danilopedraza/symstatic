@@ -94,10 +94,10 @@ ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
             node = parse_identifier();
             break;
         case TokenType::TRUE:
-            node = parse_boolean(true);
+            node = parse_boolean();
             break;
         case TokenType::FALSE:
-            node = parse_boolean(false);
+            node = parse_boolean();
             break;
         case TokenType::LPAREN:
             node = parse_parenthesis();
@@ -135,8 +135,8 @@ ASTNode* Parser::parse_assignment() {
     return nullptr;
 }
 
-ASTNode* Parser::parse_boolean(bool value) {
-    Boolean *boolean = new Boolean(value);
+ASTNode* Parser::parse_boolean() {
+    Boolean *boolean = new Boolean(current_token.type == TokenType::TRUE);
     advance_tokens();
 
     return boolean;
