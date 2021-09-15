@@ -61,3 +61,10 @@ Integer::Integer(Token token) {
     type = ASTNodeType::Integer;
     value = std::stoi(token.literal);
 }
+
+
+Minus::Minus(ASTNode *value) {
+    type = ASTNodeType::Minus;
+    this->value = value;
+}
+ASTNode *Minus::getValue() {return value;}

@@ -15,6 +15,7 @@ public:
     Object::Object* evaluate_block(Block *block);
     Object::Object* evaluate_if(If *if_node);
     Object::Object* evaluate_infix(Infix *infix);
+    Object::Object* evaluate_minus(Minus *minus);
     Object::Object* evaluate_program(Program *program);
 };
 

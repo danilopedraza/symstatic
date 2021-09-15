@@ -112,3 +112,22 @@ TEST(EvaluatorTests, IfEvaluation) {
         EXPECT_EQ(values[i], res->str()) << "i = " << i;
     }
 }
+
+
+TEST(EvaluatorTests, PrefixEvaluation) {
+    std::vector<std::wstring> strings = {
+        L"-(65-1)",
+        L"2+(-85)"
+    };
+    std::vector<std::wstring> values = {
+        L"-64",
+        L"-83"
+    };
+
+    for (int i = 0; i < 2; i++) {
+        Object::Object* res = eval(strings[i]);
+        
+        ASSERT_NE(nullptr, res) << "i = " << i;
+        EXPECT_EQ(values[i], res->str()) << "i = " << i;
+    }
+}

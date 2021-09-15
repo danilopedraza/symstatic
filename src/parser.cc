@@ -102,6 +102,12 @@ ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
         case TokenType::LPAREN:
             node = parse_parenthesis();
             break;
+        case TokenType::MINUS:
+            advance_tokens();
+            if (current_token.type == TokenType::MINUS)
+                return nullptr; // error
+            node = new Minus(parse_expression(PRECEDENCES::LOWEST));
+            break;
         case TokenType::POINT:
             advance_tokens(); // error
             break;

@@ -77,6 +77,10 @@ Token Lexer::next_token() {
                 token.literal = L'/';
                 token.type = TokenType::DIVISION;
                 break;
+            case L'=':
+                token.literal = L'=';
+                token.type = TokenType::EQUALS;
+                break;
             case WEOF:
                 token.literal = WEOF;
                 token.type = TokenType::EOFILE;

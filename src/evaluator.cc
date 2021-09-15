@@ -36,6 +36,10 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
             Integer* newInt = static_cast<Integer*>(node);
             return new Object::Integer(newInt->value);
         } break;
+        case ASTNodeType::Minus: {
+            Minus* minus = static_cast<Minus*>(node);
+            return evaluate_minus(minus);
+        } break;
         case ASTNodeType::Program: {
             Program* program = static_cast<Program*>(node);
             return evaluate_program(program);
@@ -106,6 +110,25 @@ Object::Object* Evaluator::evaluate_infix(Infix *infix) {
                     static_cast<Object::Integer*>(left)->value /
                     static_cast<Object::Integer*>(right)->value
                 );
+            break;
+        default:
+            break;
+    }
+
+    return nullptr; // error
+}
+
+
+Object::Object* Evaluator::evaluate_minus(Minus *minus) {
+    if (minus->getValue() == nullptr)
+        return nullptr; // error
+    
+    Object::Object* value = evaluate(minus->getValue());
+    switch (value->type) {
+        case Object::ObjectType::Integer:
+            return new Object::Integer(
+                -static_cast<Object::Integer*>(value)->value
+            );
             break;
         default:
             break;
