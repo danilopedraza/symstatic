@@ -103,10 +103,7 @@ ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
             node = parse_parenthesis();
             break;
         case TokenType::MINUS:
-            advance_tokens();
-            if (current_token.type == TokenType::MINUS)
-                return nullptr; // error
-            node = new Minus(parse_expression(PRECEDENCES::LOWEST));
+            node = parse_minus();
             break;
         case TokenType::POINT:
             advance_tokens(); // error
@@ -186,6 +183,13 @@ ASTNode* Parser::parse_integer() {
     advance_tokens();
 
     return integer;
+}
+
+ASTNode* Parser::parse_minus() {
+    advance_tokens(); // minus token
+    if (current_token.type == TokenType::MINUS)
+        return nullptr; // error
+    return new Minus(parse_expression(PRECEDENCES::LOWEST));
 }
 
 ASTNode* Parser::parse_parenthesis() {

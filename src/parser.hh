@@ -54,6 +54,7 @@ private:
     ASTNode* parse_if();
     ASTNode* parse_infix(ASTNode *left);
     ASTNode* parse_integer();
+    ASTNode* parse_minus();
     ASTNode* parse_parenthesis();
 };
 
