@@ -91,8 +91,8 @@ Object::Object* Evaluator::evaluate_infix(Infix *infix) {
                 );
             else if (operand_type == Object::ObjectType::Boolean)
                 return new Object::Boolean(
-                    static_cast<Object::Integer*>(left)->value ==
-                    static_cast<Object::Integer*>(right)->value
+                    static_cast<Object::Boolean*>(left)->value ==
+                    static_cast<Object::Boolean*>(right)->value
                 );
             break;
         case TokenType::PLUS:
