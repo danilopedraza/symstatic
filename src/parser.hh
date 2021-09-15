@@ -20,6 +20,7 @@ private:
     bool expected_token(TokenType token_type);
 
     std::unordered_set <TokenType> INFIX_OPERATORS = {
+        TokenType::EQUALS,
         TokenType::PLUS,
         TokenType::MINUS,
         TokenType::MULTIPLICATION,
@@ -29,11 +30,13 @@ private:
     enum class PRECEDENCES: int
     {
         LOWEST,
+        EQUALITY,
         SUM,
         PRODUCT
     };
 
     std::unordered_map <TokenType, PRECEDENCES> PRECEDENCE = {
+        {TokenType::EQUALS, PRECEDENCES::EQUALITY},
         {TokenType::PLUS, PRECEDENCES::SUM},
         {TokenType::MINUS, PRECEDENCES::SUM},
         {TokenType::MULTIPLICATION, PRECEDENCES::PRODUCT},

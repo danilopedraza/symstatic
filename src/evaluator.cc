@@ -83,6 +83,18 @@ Object::Object* Evaluator::evaluate_infix(Infix *infix) {
     
     Object::ObjectType operand_type = left->type;
     switch (infix->getOp().type) {
+        case TokenType::EQUALS:
+            if (operand_type == Object::ObjectType::Integer)
+                return new Object::Boolean(
+                    static_cast<Object::Integer*>(left)->value ==
+                    static_cast<Object::Integer*>(right)->value
+                );
+            else if (operand_type == Object::ObjectType::Boolean)
+                return new Object::Boolean(
+                    static_cast<Object::Integer*>(left)->value ==
+                    static_cast<Object::Integer*>(right)->value
+                );
+            break;
         case TokenType::PLUS:
             if (operand_type == Object::ObjectType::Integer)
                 return new Object::Integer(

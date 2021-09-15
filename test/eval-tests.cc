@@ -75,7 +75,8 @@ TEST(EvaluatorTests, InfixEvaluation) {
         L"8/4+7*2.",
         L"(2+6)",
         L"(3-(0-8))",
-        L"a := (35+7)-(2-10)+1. a"
+        L"a := (35+7)-(2-10)+1. a",
+        L"cincoIgualACuatroMásUno := 5 = 4 + 1. cincoIgualACuatroMásUno."
     };
     std::vector<std::wstring> values = {
         L"6",
@@ -83,10 +84,11 @@ TEST(EvaluatorTests, InfixEvaluation) {
         L"16",
         L"8",
         L"11",
-        L"51"
+        L"51",
+        L"verdadero"
     };
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 7; i++) {
         Object::Object* res = eval(strings[i]);
         
         ASSERT_NE(nullptr, res) << "i = " << i;
