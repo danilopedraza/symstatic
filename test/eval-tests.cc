@@ -123,7 +123,7 @@ TEST(EvaluatorTests, PrefixEvaluation) {
         L"-(65-1)",
         L"2+(-85)",
         L"no verdadero",
-        L"estáTerminado := falso. no estáTerminado"
+        L"_está_terminado := falso. no _está_terminado"
     };
     std::vector<std::wstring> values = {
         L"-64",

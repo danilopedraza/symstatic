@@ -140,12 +140,16 @@ bool Lexer::is_number(wchar_t chr) {
 }
 
 bool Lexer::is_letter(wchar_t chr) {
-    std::wstring especials = L"áäÁÄéëÉËíïÍÏóöÓÖúüÚÜñÑ";
-    
+    if (
+        (L'a' <= chr && chr <= L'z') ||
+        (L'A' <= chr && chr <= L'Z')
+    ) return true;
+
+    std::wstring especials = L"_áäÁÄéëÉËíïÍÏóöÓÖúüÚÜñÑ";
     for (size_t i = 0; i < especials.size(); i++)
         if (especials[i] == chr) return true;
     
-    return (L'a' <= chr && chr <= L'z') || (L'A' <= chr && chr <= L'Z');
+    return false;
 }
 
 std::wstring Lexer::read_number() {
