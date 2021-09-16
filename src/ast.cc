@@ -68,3 +68,10 @@ Minus::Minus(ASTNode *value) {
     this->value = value;
 }
 ASTNode *Minus::getValue() {return value;}
+
+
+Not::Not(ASTNode *value) {
+    type = ASTNodeType::Not;
+    this->value = value;
+}
+ASTNode *Not::getValue() {return value;}

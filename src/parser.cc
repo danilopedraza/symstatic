@@ -62,8 +62,7 @@ Parser::PRECEDENCES Parser::current_precedence() {
 
 
 ASTNode* Parser::parse_block() {
-    if (!expected_token(TokenType::LBRACE))
-        return nullptr; //error
+    advance_tokens(); // left brace token
     
     Block *block = new Block();
     while (
@@ -104,6 +103,9 @@ ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
             break;
         case TokenType::MINUS:
             node = parse_minus();
+            break;
+        case TokenType::NOT:
+            node = parse_not();
             break;
         case TokenType::POINT:
             advance_tokens(); // error
@@ -190,6 +192,13 @@ ASTNode* Parser::parse_minus() {
     if (current_token.type == TokenType::MINUS)
         return nullptr; // error
     return new Minus(parse_expression(PRECEDENCES::LOWEST));
+}
+
+ASTNode* Parser::parse_not() {
+    advance_tokens(); // not token
+    if (current_token.type == TokenType::NOT)
+        return nullptr; // error
+    return new Not(parse_expression(PRECEDENCES::LOWEST));
 }
 
 ASTNode* Parser::parse_parenthesis() {

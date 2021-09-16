@@ -40,6 +40,10 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
             Minus* minus = static_cast<Minus*>(node);
             return evaluate_minus(minus);
         } break;
+        case ASTNodeType::Not: {
+            Not* no = static_cast<Not*>(node);
+            return evaluate_not(no);
+        } break;
         case ASTNodeType::Program: {
             Program* program = static_cast<Program*>(node);
             return evaluate_program(program);
@@ -140,6 +144,25 @@ Object::Object* Evaluator::evaluate_minus(Minus *minus) {
         case Object::ObjectType::Integer:
             return new Object::Integer(
                 -static_cast<Object::Integer*>(value)->value
+            );
+            break;
+        default:
+            break;
+    }
+
+    return nullptr; // error
+}
+
+
+Object::Object* Evaluator::evaluate_not(Not *no) {
+    if (no->getValue() == nullptr)
+        return nullptr; // error
+    
+    Object::Object* value = evaluate(no->getValue());
+    switch (value->type) {
+        case Object::ObjectType::Boolean:
+            return new Object::Boolean(
+                !static_cast<Object::Boolean*>(value)->value
             );
             break;
         default:

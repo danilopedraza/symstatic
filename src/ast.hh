@@ -14,7 +14,8 @@ enum class ASTNodeType: int
     If,
     Infix,
     Integer,
-    Minus
+    Minus,
+    Not
 };
 
 
@@ -117,6 +118,16 @@ private:
     ASTNode *value;
 public:
     Minus(ASTNode *value);
+    ASTNode *getValue();
+};
+
+
+class Not: public ASTNode
+{
+private:
+    ASTNode *value;
+public:
+    Not(ASTNode *value);
     ASTNode *getValue();
 };
 

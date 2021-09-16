@@ -121,14 +121,18 @@ TEST(EvaluatorTests, IfEvaluation) {
 TEST(EvaluatorTests, PrefixEvaluation) {
     std::vector<std::wstring> strings = {
         L"-(65-1)",
-        L"2+(-85)"
+        L"2+(-85)",
+        L"no verdadero",
+        L"estáTerminado := falso. no estáTerminado"
     };
     std::vector<std::wstring> values = {
         L"-64",
-        L"-83"
+        L"-83",
+        L"falso",
+        L"verdadero"
     };
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 4; i++) {
         Object::Object* res = eval(strings[i]);
         
         ASSERT_NE(nullptr, res) << "i = " << i;
