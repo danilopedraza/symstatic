@@ -15,7 +15,8 @@ enum class ASTNodeType: int
     Infix,
     Integer,
     Minus,
-    Not
+    Not,
+    While
 };
 
 
@@ -129,6 +130,18 @@ private:
 public:
     Not(ASTNode *value);
     ASTNode *getValue();
+};
+
+
+class While: public ASTNode
+{
+private:
+    ASTNode *condition;
+    ASTNode *routine;
+public:
+    While(ASTNode *condition, ASTNode *routine);
+    ASTNode *getCondition();
+    ASTNode *getRoutine();
 };
 
 #endif

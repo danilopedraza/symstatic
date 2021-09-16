@@ -75,3 +75,11 @@ Not::Not(ASTNode *value) {
     this->value = value;
 }
 ASTNode *Not::getValue() {return value;}
+
+While::While(ASTNode *condition, ASTNode *routine) {
+    type = ASTNodeType::While;
+    this->condition = condition;
+    this->routine = routine;
+}
+ASTNode* While::getCondition() {return condition;}
+ASTNode* While::getRoutine() {return routine;}

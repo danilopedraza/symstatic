@@ -143,3 +143,22 @@ TEST(EvaluatorTests, PrefixEvaluation) {
         EXPECT_EQ(values[i], res->str()) << "i = " << i;
     }
 }
+
+
+TEST(EvaluatorTests, WhileEvaluation) {
+    std::vector<std::wstring> strings = {
+        L"a := 0. b := verdadero mientras b {a := a + 1. b := falso} a",
+        L"a := 1. i := 0 mientras no a = 16 {a := 2*a. i:= i+1.} i."
+    };
+    std::vector<std::wstring> values = {
+        L"1",
+        L"4"
+    };
+
+    for (int i = 0; i < 2; i++) {
+        Object::Object* res = eval(strings[i]);
+        
+        ASSERT_NE(nullptr, res) << "i = " << i;
+        EXPECT_EQ(values[i], res->str()) << "i = " << i;
+    }
+}

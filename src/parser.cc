@@ -19,6 +19,8 @@ ASTNode* Parser::parse_anything() {
     
     else if (current_token.type == TokenType::IF)
         node = parse_if();
+    else if (current_token.type == TokenType::WHILE)
+        node = parse_while();
     else
         node = parse_expression(PRECEDENCES::LOWEST);
     
@@ -220,4 +222,15 @@ ASTNode* Parser::parse_parenthesis() {
     if (expected_token(TokenType::RPAREN)) // right parenthesis if there is one
         return exp;
     return nullptr; // error
+}
+
+ASTNode* Parser::parse_while() {
+    advance_tokens(); // while token
+    ASTNode *condition = parse_expression(PRECEDENCES::LOWEST);
+    if (condition == nullptr)
+        return nullptr; // error
+    
+    ASTNode *routine = parse_block();
+
+    return new While(condition, routine);
 }

@@ -44,6 +44,10 @@ Object::Object* Evaluator::evaluate(ASTNode *node) {
             Not* no = static_cast<Not*>(node);
             return evaluate_not(no);
         } break;
+        case ASTNodeType::While: {
+            While* while_node = static_cast<While*>(node);
+            return evaluate_while(while_node);
+        } break;
         case ASTNodeType::Program: {
             Program* program = static_cast<Program*>(node);
             return evaluate_program(program);
@@ -178,6 +182,26 @@ Object::Object* Evaluator::evaluate_program(Program* program) {
 
     for (int i = 0; i < program->ASTNodes.size(); i++) {
         res = evaluate(program->ASTNodes[i]);
+    }
+
+    return res;
+}
+
+
+Object::Object* Evaluator::evaluate_while(While *while_node) {
+    Object::Object* res = nullptr;
+
+    Object::Object* condition = evaluate(while_node->getCondition());
+    if (condition->type != Object::ObjectType::Boolean)
+        return nullptr; // error
+
+
+    while (static_cast<Object::Boolean*>(condition)->value) {
+        res = evaluate_block(static_cast<Block*>(while_node->getRoutine()));
+
+        condition = evaluate(while_node->getCondition());
+        if (condition->type != Object::ObjectType::Boolean)
+            return nullptr; // error
     }
 
     return res;

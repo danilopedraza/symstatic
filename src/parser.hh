@@ -58,6 +58,7 @@ private:
     ASTNode* parse_minus();
     ASTNode* parse_not();
     ASTNode* parse_parenthesis();
+    ASTNode* parse_while();
 };
 
 #endif
