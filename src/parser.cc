@@ -6,6 +6,7 @@
 Parser::Parser(Lexer lexer) : lexer(lexer) {
     advance_tokens();
     advance_tokens();
+    advance_tokens();
 };
 
 ASTNode* Parser::parse_anything() {
@@ -42,7 +43,8 @@ Program* Parser::parse_program() {
 
 void Parser::advance_tokens() {
     current_token = peek_token;
-    peek_token = lexer.next_token();
+    peek_token = peek_peek_token;
+    peek_peek_token = lexer.next_token();
 }
 
 bool Parser::expected_token(TokenType token_type) {
@@ -62,21 +64,22 @@ Parser::PRECEDENCES Parser::current_precedence() {
 
 
 ASTNode* Parser::parse_block() {
-    advance_tokens(); // left brace token
+    bool is_a_block = expected_token(TokenType::LBRACE);
     
     Block *block = new Block();
-    while (
-        current_token.type != TokenType::RBRACE &&
-        current_token.type != TokenType::EOFILE
-    ) {
+    do {
         ASTNode *exp = parse_anything();
         if (exp != nullptr)
             block->routine.push_back(exp);
         else
             return nullptr; // error (probably managed before arriving here)
-    }
+    } while (
+        current_token.type != TokenType::RBRACE &&
+        current_token.type != TokenType::EOFILE &&
+        is_a_block
+    );
     
-    if (!expected_token(TokenType::RBRACE))
+    if (is_a_block && !expected_token(TokenType::RBRACE))
         return nullptr; // error
     return block;
 }
@@ -162,6 +165,16 @@ ASTNode* Parser::parse_if() {
     ASTNode *alternative = nullptr;
     if (expected_token(TokenType::ELSE))
         alternative = parse_block();
+    else if (
+        current_token.type   == TokenType::IF &&
+        peek_token.type      == TokenType::NOT &&
+        peek_peek_token.type == TokenType::THEN // si no entonces XD
+    ) {
+        advance_tokens();
+        advance_tokens();
+        advance_tokens();
+        alternative = parse_block();
+    }
 
     return new If(condition, consequence, alternative);
 }

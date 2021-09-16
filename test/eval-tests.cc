@@ -102,14 +102,16 @@ TEST(EvaluatorTests, InfixEvaluation) {
 TEST(EvaluatorTests, IfEvaluation) {
     std::vector<std::wstring> strings = {
         L"si verdadero {5.}",
-        L"a:=5. si falso {a := 1.} sino {a := a+2. a.}"
+        L"a:=5. si falso {a := 1.} sino {a := a+2. a.}",
+        L"a := falso. si no a a := verdadero. si no entonces a := falso. a."
     };
     std::vector<std::wstring> values = {
         L"5",
-        L"7"
+        L"7",
+        L"verdadero"
     };
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         Object::Object* res = eval(strings[i]);
         
         ASSERT_NE(nullptr, res) << "i = " << i;

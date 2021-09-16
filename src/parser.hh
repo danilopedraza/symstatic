@@ -15,6 +15,7 @@ private:
     Lexer lexer;
     Token current_token;
     Token peek_token;
+    Token peek_peek_token;
 
     void advance_tokens();
     bool expected_token(TokenType token_type);

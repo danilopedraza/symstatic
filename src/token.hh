@@ -26,6 +26,7 @@ enum class TokenType: int
     OR,
     POINT,
     PLUS,
+    THEN,
     TRUE,
     RBRACE,
     RPAREN,
