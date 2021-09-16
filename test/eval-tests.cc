@@ -103,12 +103,14 @@ TEST(EvaluatorTests, IfEvaluation) {
     std::vector<std::wstring> strings = {
         L"si verdadero {5.}",
         L"a:=5. si falso {a := 1.} sino {a := a+2. a.}",
-        L"a := falso. si no a a := verdadero. si no entonces a := falso. a."
+        L"a := falso. si no a a := verdadero. si no entonces a := falso. a.",
+        L"si 2 = 3-2 a:= 5 si no entonces si 3=1 a := 2 si no entonces a := 1 a"
     };
     std::vector<std::wstring> values = {
         L"5",
         L"7",
-        L"verdadero"
+        L"verdadero",
+        L"1"
     };
 
     for (int i = 0; i < 3; i++) {
