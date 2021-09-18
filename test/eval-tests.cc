@@ -6,7 +6,7 @@
 #include "../src/evaluator.hh"
 
 
-Object::Object* eval(std::wstring string) {
+Object::Object* eval(const std::wstring &string) {
     Lexer lexer = Lexer(string);
     Parser parser = Parser(lexer);
     Program *program = parser.parse_program();
