@@ -172,12 +172,6 @@ ASTNode* Parser::parse_call(ASTNode *ident) {
             params.push_back(param);
         else
             return nullptr; // error
-
-        if (
-            current_token.type == TokenType::COMMA &&
-            peek_token.type == TokenType::RPAREN
-            )
-            return nullptr; // error
     }
 
     if (!expected_token(TokenType::RPAREN))
@@ -205,13 +199,7 @@ ASTNode* Parser::parse_function() {
         if (param != nullptr && param->type == ASTNodeType::Identifier)
             params.push_back(param);
         else
-            return nullptr; // error
-        
-        if (
-            current_token.type == TokenType::COMMA &&
-            peek_token.type == TokenType::RPAREN
-            )
-            return nullptr; // error        
+            return nullptr; // error     
     }
         
     if (!expected_token(TokenType::RPAREN))
