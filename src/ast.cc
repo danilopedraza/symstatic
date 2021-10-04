@@ -27,6 +27,24 @@ Block::Block() {
 }
 
 
+Function::Function(std::vector<ASTNode*> params, Block *routine) {
+    type = ASTNodeType::Function;
+    this->params = params;
+    this->routine = routine;
+}
+Block *Function::getRoutine() {return routine;}
+std::vector<ASTNode*> Function::getParams() {return params;}
+
+
+FunctionCall::FunctionCall(std::wstring name, std::vector<ASTNode*> params) {
+    type = ASTNodeType::FunctionCall;
+    this->name = name;
+    this->params = params;
+}
+std::wstring FunctionCall::getName() {return name;}
+std::vector<ASTNode*> FunctionCall::getParams() {return params;}
+
+
 Identifier::Identifier(std::wstring name) {
     type = ASTNodeType::Identifier;
     this->name = name;

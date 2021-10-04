@@ -8,8 +8,10 @@ enum class TokenType: int
     EOFILE = -1,
     AND,
     ASSIGN,
+    COMMA,
     DIVISION,
     DO,
+    FUNCTION,
     ELSE,
     EQUALS,
     FALSE,
@@ -30,6 +32,7 @@ enum class TokenType: int
     TRUE,
     RBRACE,
     RPAREN,
+    SEMICOLON,
     WHILE
 };
 

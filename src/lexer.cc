@@ -81,6 +81,10 @@ Token Lexer::next_token() {
                 token.literal = L'=';
                 token.type = TokenType::EQUALS;
                 break;
+            case L';':
+                token.literal = L';';
+                token.type = TokenType::SEMICOLON;
+                break;
             case WEOF:
                 token.literal = WEOF;
                 token.type = TokenType::EOFILE;

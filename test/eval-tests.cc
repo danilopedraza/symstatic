@@ -11,7 +11,7 @@ Object::Object* eval(const std::wstring &string) {
     Parser parser = Parser(lexer);
     Program *program = parser.parse_program();
 
-    return Evaluator().evaluate(program);
+    return Evaluator().evaluate_program(program);
 }
 
 TEST(EvaluatorTests, IntegerEvaluation) {
@@ -156,6 +156,27 @@ TEST(EvaluatorTests, WhileEvaluation) {
     };
 
     for (int i = 0; i < 2; i++) {
+        Object::Object* res = eval(strings[i]);
+        
+        ASSERT_NE(nullptr, res) << "i = " << i;
+        EXPECT_EQ(values[i], res->str()) << "i = " << i;
+    }
+}
+
+
+TEST(EvaluatorTests, FunctionEvaluation) {
+    std::vector<std::wstring> strings = {
+        L"a := función() {b := 5. b.} a()",
+        L"func := función(a) {5.} func(2).",
+        L"a := función(a. a1) a + a1. b := 0. a(2. 2 + b)."
+    };
+    std::vector<std::wstring> values = {
+        L"5",
+        L"5",
+        L"4"
+    };
+
+    for (int i = 0; i < 3; i++) {
         Object::Object* res = eval(strings[i]);
         
         ASSERT_NE(nullptr, res) << "i = " << i;

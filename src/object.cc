@@ -1,4 +1,5 @@
 #include "libraries.hh"
+#include "ast.hh"
 #include "object.hh"
 
 Object::Boolean::Boolean(bool value) {
@@ -8,6 +9,16 @@ Object::Boolean::Boolean(bool value) {
 std::wstring Object::Boolean::str() {
     return this->value? L"verdadero" : L"falso";
 }
+
+
+Object::Function::Function(ASTNode* function) {
+    this->type = ObjectType::Function;
+    this->function = function;
+}
+std::wstring Object::Function::str() {
+    return L"Objeto de tipo función";
+}
+ASTNode *Object::Function::getFunction() {return function;}
 
 
 Object::Integer::Integer(long long value) {

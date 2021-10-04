@@ -112,6 +112,9 @@ ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
         case TokenType::NOT:
             node = parse_not();
             break;
+        case TokenType::FUNCTION:
+            node = parse_function();
+            break;
         case TokenType::POINT:
             advance_tokens(); // error
             break;
@@ -123,11 +126,14 @@ ASTNode* Parser::parse_expression(PRECEDENCES precedence) {
         INFIX_OPERATORS.count(current_token.type) &&
         precedence < current_precedence()
     ) {
-        node = parse_infix(node);
+        if (current_token.type == TokenType::LPAREN)
+            node = parse_call(node);
+        else
+            node = parse_infix(node);
     }
 
     expected_token(TokenType::POINT); // just pass if there is a point
-    return node; 
+    return node;
 }
 
 ASTNode* Parser::parse_assignment() {
@@ -147,6 +153,74 @@ ASTNode* Parser::parse_boolean() {
     advance_tokens();
 
     return boolean;
+}
+
+ASTNode* Parser::parse_call(ASTNode *ident) {
+    if (ident->type != ASTNodeType::Identifier)
+        return nullptr; // error
+    
+    advance_tokens(); // left parenthesis token
+
+    std::vector<ASTNode*> params;
+    ASTNode *param = nullptr;
+    while (
+        current_token.type != TokenType::RPAREN &&
+        current_token.type != TokenType::EOFILE
+    ) {
+        param = parse_expression(PRECEDENCES::LOWEST);
+        if (param != nullptr)
+            params.push_back(param);
+        else
+            return nullptr; // error
+
+        if (
+            current_token.type == TokenType::COMMA &&
+            peek_token.type == TokenType::RPAREN
+            )
+            return nullptr; // error
+    }
+
+    if (!expected_token(TokenType::RPAREN))
+        return nullptr; // error
+
+    return new FunctionCall(
+        static_cast<Identifier*>(ident)->getName(),
+        params
+    );
+}
+
+ASTNode* Parser::parse_function() {
+    advance_tokens(); // function token
+    if (!expected_token(TokenType::LPAREN)) // left parenthesis token
+        return nullptr;
+    
+
+    std::vector<ASTNode*> params;
+    ASTNode *param = nullptr;
+    while (
+        current_token.type != TokenType::RPAREN &&
+        current_token.type != TokenType::EOFILE
+    ) {
+        param = parse_expression(PRECEDENCES::LOWEST);
+        if (param != nullptr && param->type == ASTNodeType::Identifier)
+            params.push_back(param);
+        else
+            return nullptr; // error
+        
+        if (
+            current_token.type == TokenType::COMMA &&
+            peek_token.type == TokenType::RPAREN
+            )
+            return nullptr; // error        
+    }
+        
+    if (!expected_token(TokenType::RPAREN))
+        return nullptr;
+    
+    Block* block = static_cast<Block*>(parse_block());
+    if (block == nullptr)
+        return nullptr; // error
+    return new Function(params, block);
 }
 
 ASTNode* Parser::parse_identifier() {

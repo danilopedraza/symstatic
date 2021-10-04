@@ -1,6 +1,7 @@
 #ifndef OBJECT_HH
 #define OBJECT_HH
 
+#include "ast.hh"
 #include "libraries.hh"
 
 namespace Object {
@@ -8,6 +9,7 @@ namespace Object {
     enum class ObjectType: int
     {
         Boolean,
+        Function,
         Integer
     };
 
@@ -24,6 +26,16 @@ namespace Object {
         Boolean(bool value);
         std::wstring str();
         bool value;
+    };
+
+    class Function: public Object
+    {
+    private:
+        ASTNode *function;
+    public:
+        Function(ASTNode* function);
+        ASTNode *getFunction();
+        std::wstring str();
     };
 
     class Integer: public Object

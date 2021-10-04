@@ -36,7 +36,8 @@ private:
         {L"hacer", TokenType::DO},
         {L"y", TokenType::AND},
         {L"o", TokenType::OR},
-        {L"no", TokenType::NOT}
+        {L"no", TokenType::NOT},
+        {L"función", TokenType::FUNCTION}
     };
 };
 

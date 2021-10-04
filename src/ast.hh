@@ -10,6 +10,8 @@ enum class ASTNodeType: int
     Block,
     Program,
     Boolean,
+    Function,
+    FunctionCall,
     Identifier,
     If,
     Infix,
@@ -63,6 +65,30 @@ class Block: public ASTNode
 public:
     Block();
     std::vector<ASTNode* > routine;
+};
+
+
+class Function: public ASTNode
+{
+private:
+    Block *routine;
+    std::vector<ASTNode*> params;
+public:
+    Function(std::vector<ASTNode*> params, Block *routine);
+    Block *getRoutine();
+    std::vector<ASTNode*> getParams();
+};
+
+
+class FunctionCall: public ASTNode
+{
+private:
+    std::wstring name;
+    std::vector<ASTNode*> params;
+public:
+    FunctionCall(std::wstring name, std::vector<ASTNode*> params);
+    std::wstring getName();
+    std::vector<ASTNode*> getParams();
 };
 
 

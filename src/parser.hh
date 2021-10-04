@@ -25,7 +25,8 @@ private:
         TokenType::PLUS,
         TokenType::MINUS,
         TokenType::MULTIPLICATION,
-        TokenType::DIVISION
+        TokenType::DIVISION,
+        TokenType::LPAREN
     };
 
     enum class PRECEDENCES: int
@@ -33,7 +34,8 @@ private:
         LOWEST,
         EQUALITY,
         SUM,
-        PRODUCT
+        PRODUCT,
+        CALL
     };
 
     std::unordered_map <TokenType, PRECEDENCES> PRECEDENCE = {
@@ -41,7 +43,8 @@ private:
         {TokenType::PLUS, PRECEDENCES::SUM},
         {TokenType::MINUS, PRECEDENCES::SUM},
         {TokenType::MULTIPLICATION, PRECEDENCES::PRODUCT},
-        {TokenType::DIVISION, PRECEDENCES::PRODUCT}
+        {TokenType::DIVISION, PRECEDENCES::PRODUCT},
+        {TokenType::LPAREN, PRECEDENCES::CALL}
     };
 
     PRECEDENCES current_precedence();
@@ -50,7 +53,9 @@ private:
     ASTNode* parse_assignment();
     ASTNode* parse_block();
     ASTNode* parse_boolean();
+    ASTNode* parse_call(ASTNode *ident);
     ASTNode* parse_expression(PRECEDENCES precedence);
+    ASTNode* parse_function();
     ASTNode* parse_identifier();
     ASTNode* parse_if();
     ASTNode* parse_infix(ASTNode *left);
