@@ -275,7 +275,7 @@ ASTNode* Parser::parse_not() {
     advance_tokens(); // not token
     if (current_token.type == TokenType::NOT)
         return nullptr; // error
-    return new Not(parse_expression(PRECEDENCES::LOWEST));
+    return new Not(parse_expression(PRECEDENCES::CALL));
 }
 
 ASTNode* Parser::parse_parenthesis() {
