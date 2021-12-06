@@ -13,22 +13,22 @@ enable_testing()
 add_subdirectory(googletest)
 
 set(headers
-    src/ast.hh
-    src/evaluator.hh
-    src/lexer.hh
-    src/libraries.hh
-    src/object.hh
-    src/parser.hh
-    src/token.hh
+    src/lang/ast.hh
+    src/lang/evaluator.hh
+    src/lang/lexer.hh
+    src/lang/libraries.hh
+    src/lang/object.hh
+    src/lang/parser.hh
+    src/lang/token.hh
 )
 
 set(sources
-    src/ast.cc
-    src/evaluator.cc
-    src/lexer.cc
-    src/object.cc
-    src/parser.cc
-    src/token.cc
+    src/lang/ast.cc
+    src/lang/evaluator.cc
+    src/lang/lexer.cc
+    src/lang/object.cc
+    src/lang/parser.cc
+    src/lang/token.cc
 )
 
 add_library(${this} STATIC ${sources} ${headers})

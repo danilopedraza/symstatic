@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "../src/libraries.hh"
+#include "../src/lang/libraries.hh"
 
-#include "../src/lexer.hh"
-#include "../src/token.hh"
+#include "../src/lang/lexer.hh"
+#include "../src/lang/token.hh"
 
 TEST(LexerTests, ParenthesisTokenization) {
     std::vector<std::wstring> strings = {

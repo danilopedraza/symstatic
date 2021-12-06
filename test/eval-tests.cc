@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include "../src/libraries.hh"
+#include "../src/lang/libraries.hh"
 
-#include "../src/lexer.hh"
-#include "../src/parser.hh"
-#include "../src/evaluator.hh"
+#include "../src/lang/lexer.hh"
+#include "../src/lang/parser.hh"
+#include "../src/lang/evaluator.hh"
 
 
 Object::Object* eval(const std::wstring &string) {
