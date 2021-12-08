@@ -5,14 +5,14 @@
 #include "lang/evaluator.hh"
 
 void repl() {
-    std::wstring string;
+    std::wstring lines, line;
 
     std::wcout << L">>> ";
-    std::getline(std::wcin, string);
-    while (string != L"salir") {
-        
+    std::getline(std::wcin, line);
+    while (line != L"salir") {
+        lines += line;
 
-        Lexer lexer = Lexer(string);
+        Lexer lexer = Lexer(lines);
         Parser parser = Parser(lexer);
         Program *program = parser.parse_program();
 
@@ -20,7 +20,7 @@ void repl() {
         std::wcout << Evaluator().evaluate_program(program)->str() << L'\n';
 
         std::wcout << L">>> ";
-        std::getline(std::wcin, string);
+        std::getline(std::wcin, line);
     }
 }
 
