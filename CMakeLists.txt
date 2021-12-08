@@ -29,6 +29,8 @@ set(sources
     src/lang/object.cc
     src/lang/parser.cc
     src/lang/token.cc
+
+    src/main.cc
 )
 
 add_library(${this} STATIC ${sources} ${headers})
