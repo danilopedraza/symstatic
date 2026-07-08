@@ -1,18 +1,15 @@
 name: Interpreter CI
-
 on:
   pull_request:
   push:
     branches:
       - main
-
+  workflow_call:
 permissions:
   contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
-
 jobs:
   test:
     name: test
@@ -24,75 +21,38 @@ jobs:
         toolchain: [stable]
         target:
           - x86_64-unknown-linux-gnu
-          # - x86_64-apple-darwin
-          # - aarch64-apple-darwin
+          - aarch64-apple-darwin
         include:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             cargo-tool: cargo
-          # - os: macos-13 # intel
-          #   target: x86_64-apple-darwin
-          #   cargo-tool: cargo
-          # - os: macos-latest # aarch64
-          #   target: aarch64-apple-darwin
-          #   cargo-tool: cargo
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            cargo-tool: cargo
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: ${{ matrix.toolchain }}
           target: ${{ matrix.target }}
-
       - name: Run tests
         working-directory: ./core
         run: make test
-  
-  # test-windows:
-  #   runs-on: windows-latest
-  #   timeout-minutes: 10
-  #   strategy:
-  #     fail-fast: false
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-
-  #     - name: Install Rust toolchain
-  #       uses: dtolnay/rust-toolchain@stable
-  #       with:
-  #         toolchain: stable
-  #         target: x86_64-pc-windows-gnu
-      
-  #     - name: Setup MSYS2
-  #       uses: msys2/setup-msys2@v2
-  #       with:
-  #         update: true
-  #         install: >-
-  #           diffutils
-  #           m4
-  #           make
-  #           mingw-w64-x86_64-gcc
-      
-  #     - name: Run tests
-  #       shell: msys2 {0}
-  #       working-directory: ./core
-  #       run: make test
 
   format:
     name: format
     runs-on: ubuntu-latest
+    if: success()
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
           components: rustfmt
-      
       - name: Check formatting
         working-directory: ./core
         run: make fmt-check
@@ -100,16 +60,15 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
+    if: success()
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
           components: clippy
-
       - name: Run linter
         working-directory: ./core
         run: make lint
