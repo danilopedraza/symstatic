@@ -32,7 +32,7 @@ test: test-core test-core-browser test-installer
 
 test-core:
 	cd $(ROOT_DIR)/core
-	KOMODO_STD=$(ROOT_DIR)/std/ sh test.sh $(ROOT_DIR)/examples
+	KOMODO_STD=$(ROOT_DIR)/std/ bash test.sh $(ROOT_DIR)/examples
 
 test-core-browser:
 	cd $(ROOT_DIR)/core-browser

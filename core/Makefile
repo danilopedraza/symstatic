@@ -7,7 +7,7 @@ build-linux-amd64:
 	cargo build --all-features --release --target x86_64-unknown-linux-musl
 
 test:
-	KOMODO_STD=$(CURRENT_DIR)/../std/ sh test.sh $(CURRENT_DIR)/../examples
+	KOMODO_STD=$(CURRENT_DIR)/../std/ bash test.sh $(CURRENT_DIR)/../examples
 
 bench:
 	echo "Remember to set `second_to_last_push_hash` to the hash of the commit that you want to compare to HEAD."
