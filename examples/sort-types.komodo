@@ -1,0 +1,5 @@
+assert([0.5, 1].sorted() = [0.5, 1])
+assert([10//20, 1].sorted() = [10//20, 1])
+assert([10//20, 1.0].sorted() = [10//20, 1.0])
+
+assert(0.5 < "cesar")
