@@ -96,7 +96,9 @@ default_prefix_methods!(bitwise_not, logic_not, inverse);
 pub enum Object {
     Boolean(Bool),
     Char(Char),
-    Number(Number),
+    Integer(Integer),
+    Float(Float),
+    Fraction(Fraction),
     Symbol(Symbol),
     String(MyString),
     Tuple(Tuple),
@@ -106,13 +108,6 @@ pub enum Object {
     Function(Function),
     Range(Range),
     Error(ObjectError),
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub enum Number {
-    Integer(Integer),
-    Float(Float),
-    Fraction(Fraction),
 }
 
 impl Object {
